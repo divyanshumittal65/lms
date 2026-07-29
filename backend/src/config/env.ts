@@ -5,7 +5,9 @@ dotenv.config();
 
 const envSchema = z.object({
   PORT: z.coerce.number().default(4000),
-  CLIENT_URL: z.string().default("http://localhost:5173"),
+  CLIENT_URL: z.string().default(
+    process.env.CLIENT_URL ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:5173")
+  ),
   JWT_SECRET: z.string().min(12).default("development-secret-change-me"),
   JWT_EXPIRES_IN: z.string().default("7d"),
   DB_HOST: z.string().default("localhost"),
